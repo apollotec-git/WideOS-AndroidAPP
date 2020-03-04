@@ -1,4 +1,4 @@
-package teste.apollotec;
+package pt.apollotec;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -245,7 +245,7 @@ public class PinActivity extends AppCompatActivity {
     {
         //ImageViewLogo.setImageURI(Uri.parse());
         String test = "android.resource://"+R.class.getPackage().getName()+"/drawable/"+logostr;
-        Toast.makeText(this,test, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,test, Toast.LENGTH_LONG).show();
 
     }
 

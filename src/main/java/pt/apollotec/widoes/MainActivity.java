@@ -1,4 +1,4 @@
-package pt.apollotec.wideos;
+package pt.apollotec.widoes;
 
 import androidx.appcompat.app.AppCompatActivity;
 

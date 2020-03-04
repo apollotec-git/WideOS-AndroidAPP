@@ -1,4 +1,4 @@
-package pt.apollotec;
+package pt.apollotec.wideos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,9 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import pt.apollotec.R;
+
 public class MainActivity extends AppCompatActivity {
 
 

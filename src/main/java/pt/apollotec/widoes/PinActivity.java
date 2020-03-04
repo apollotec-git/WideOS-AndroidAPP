@@ -1,4 +1,4 @@
-package pt.apollotec;
+package pt.apollotec.wideos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import pt.apollotec.R;
 
 
 public class PinActivity extends AppCompatActivity {

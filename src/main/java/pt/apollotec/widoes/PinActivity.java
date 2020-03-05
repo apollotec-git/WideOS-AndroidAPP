@@ -43,7 +43,7 @@ public class PinActivity extends AppCompatActivity {
     ImageView ImageViewLogo;
     String Pin;
     String Email;
-    String ip = "192.168.1.133";
+    String ip = "78.46.117.137";
 
     public static String md5(final String s) {
         final String MD5 = "MD5";

@@ -25,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import pt.apollotec.R;
 
@@ -60,6 +62,7 @@ public class PinActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("test");
                 Pin = EditTextPin.getText().toString();
+                Pin = md5(Pin);
                 Email = EditTextEmail.getText().toString();
                 String urluser = "http://" + ip + "/aponta/GetWebApp.php?email="+Email+"&pin="+Pin;
                 downloadUrl(urluser);
@@ -247,6 +250,30 @@ public class PinActivity extends AppCompatActivity {
         String test = "android.resource://"+R.class.getPackage().getName()+"/drawable/"+logostr;
         //Toast.makeText(this,test, Toast.LENGTH_LONG).show();
 
+    }
+    public static final String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance(MD5);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 

@@ -89,7 +89,7 @@ public class PinActivity extends AppCompatActivity {
                 Pin = EditTextPin.getText().toString();
                 Pin = md5(Pin);
                 Email = EditTextEmail.getText().toString();
-                String urluser = "http://" + ip + "/aponta/GetWebApp.php?email=" + Email + "&pin=" + Pin;
+                String urluser = "http://" + ip + "/widoes/GetWebApp.php?email=" + Email + "&pin=" + Pin;
                 downloadUrl(urluser);
 
             }

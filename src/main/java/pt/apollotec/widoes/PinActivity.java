@@ -2,6 +2,7 @@ package pt.apollotec.widoes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.*;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -41,19 +38,15 @@ public class PinActivity extends AppCompatActivity {
     String Email;
     String ip = "192.168.1.133";
 
-    String logostr;
-    String primarycolorstr;
-    String secundarycolorstr;
-    String fontstr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        downloadCustomLogin("http://" + ip + "/aponta/GetWebAppLogin.php?email=ruben");
-        updateCustomLogin();
+
+
         setContentView(R.layout.activity_pin);
         loadbutton = findViewById(R.id.loadbutton);
         EditTextPin = findViewById(R.id.editTextPin);
-        EditTextEmail = findViewById(R.id.editTextEmail);
+        EditTextEmail = findViewById(R.id.editTextLogin);
         ImageViewLogo = findViewById(R.id.imageViewLogo);
 
         EditTextEmail.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -85,6 +78,7 @@ public class PinActivity extends AppCompatActivity {
     }
     private void downloadUrl(final String urlWebService) {
 
+        @SuppressLint("StaticFieldLeak")
         class DownloadUrl extends AsyncTask<Void, Void, String> {
 
             @Override
@@ -111,7 +105,7 @@ public class PinActivity extends AppCompatActivity {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     String json;
                     while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
+                        sb.append(json).append("\n");
                     }
                     return sb.toString().trim();
                 } catch (Exception e) {
@@ -123,59 +117,13 @@ public class PinActivity extends AppCompatActivity {
         getJSON.execute();
     }
 
-
-    private void downloadCustomLogin(final String urlWebService) {
-
-        class DownloadCustomLogin extends AsyncTask<Void, Void, String> {
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                try {
-                    JSONObject jObject = new JSONObject(s);
-                    logostr = jObject.getString("logo");
-                    primarycolorstr = jObject.getString("primarycolor");
-                    secundarycolorstr = jObject.getString("secundarycolor");
-                    fontstr = jObject.getString("font");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            protected String doInBackground(Void... voids) {
-                try {
-                    URL url = new URL(urlWebService);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    StringBuilder sb = new StringBuilder();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    String json;
-                    while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
-                    }
-                    return sb.toString().trim();
-                } catch (Exception e) {
-                    return null;
-                }
-            }
-        }
-        DownloadCustomLogin getJSON = new DownloadCustomLogin();
-        getJSON.execute();
-    }
     // SQL LITE
     /* Inner class that defines the table contents */
     public static class FeedEntry implements BaseColumns {
-        public static final String TABLE_NAME = "loadagenda";
-        public static final String COLUMN_NAME_1 = "email";
-        public static final String COLUMN_NAME_2 = "pin";
-        public static final String COLUMN_NAME_3 = "url";
+        static final String TABLE_NAME = "loadagenda";
+        static final String COLUMN_NAME_1 = "email";
+        static final String COLUMN_NAME_2 = "pin";
+        static final String COLUMN_NAME_3 = "url";
     }
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
@@ -185,15 +133,15 @@ public class PinActivity extends AppCompatActivity {
                     FeedEntry.COLUMN_NAME_3 + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;
+            String.format("DROP TABLE IF EXISTS %s", FeedEntry.TABLE_NAME);
 
 
-    public class FeedReaderDbHelper extends SQLiteOpenHelper {
+    public static class FeedReaderDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
-        public static final int DATABASE_VERSION = 1;
-        public static final String DATABASE_NAME = "FeedReader.db";
+        static final int DATABASE_VERSION = 1;
+        static final String DATABASE_NAME = "FeedReader.db";
 
-        public FeedReaderDbHelper(Context context) {
+        FeedReaderDbHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
         public void onCreate(SQLiteDatabase db) {
@@ -241,31 +189,25 @@ public class PinActivity extends AppCompatActivity {
 
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(FeedEntry.TABLE_NAME, null, values);
+        db.insert(FeedEntry.TABLE_NAME, null, values);
         db.close();
     }
-    void updateCustomLogin()
-    {
-        //ImageViewLogo.setImageURI(Uri.parse());
-        String test = "android.resource://"+R.class.getPackage().getName()+"/drawable/"+logostr;
-        //Toast.makeText(this,test, Toast.LENGTH_LONG).show();
 
-    }
-    public static final String md5(final String s) {
+    public static String md5(final String s) {
         final String MD5 = "MD5";
         try {
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest
                     .getInstance(MD5);
             digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             // Create Hex String
             StringBuilder hexString = new StringBuilder();
             for (byte aMessageDigest : messageDigest) {
-                String h = Integer.toHexString(0xFF & aMessageDigest);
+                StringBuilder h = new StringBuilder(Integer.toHexString(0xFF & aMessageDigest));
                 while (h.length() < 2)
-                    h = "0" + h;
+                    h.insert(0, "0");
                 hexString.append(h);
             }
             return hexString.toString();

@@ -15,16 +15,16 @@
             android:id="@+id/imageViewLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/editTextEmail"
+            app:layout_constraintBottom_toTopOf="@id/editTextLogin"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/logo_apollotec_72dpi"
             android:layout_marginTop="250dp"
-            />
+            android:contentDescription="@string/ImageViewDesc" />
 
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -34,28 +34,29 @@
             app:layout_constraintBottom_toTopOf="@id/editTextPin"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="parent"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/editTextPin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Codigo"
+            android:hint="@string/EditTextPinHint"
             android:inputType="numberPassword"
             android:text=""
             app:layout_constraintBottom_toTopOf="@id/loadbutton"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextEmail"
+            app:layout_constraintTop_toBottomOf="@id/editTextLogin"
             android:layout_marginTop="10dp"
-            />
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/loadbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="@string/loadbuttonText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

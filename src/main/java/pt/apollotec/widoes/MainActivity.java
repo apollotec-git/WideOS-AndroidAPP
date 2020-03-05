@@ -2,6 +2,7 @@ package pt.apollotec.widoes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,29 +18,28 @@ import pt.apollotec.R;
 public class MainActivity extends AppCompatActivity {
 
 
-    private WebView mywebview;
-    private int currentApiVersion;
+    @SuppressLint({"SetJavaScriptEnabled", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String url = getIntent().getStringExtra("LinkAgenda");
         HideNav();
-        mywebview = (WebView)findViewById(R.id.webView);
-        int scale = 100 * (int) mywebview.getScale();
-        mywebview.setInitialScale(scale);
-        WebSettings webSettings = mywebview.getSettings();
+        WebView Mywebview = findViewById(R.id.webView);
+        int scale = 100 * (int) Mywebview.getScale();
+        Mywebview.setInitialScale(scale);
+        WebSettings webSettings = Mywebview.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        mywebview.loadUrl(url);
-        mywebview.setWebViewClient(new WebViewClient());
-        mywebview.setOnTouchListener(new View.OnTouchListener() {
+        Mywebview.loadUrl(url);
+        Mywebview.setWebViewClient(new WebViewClient());
+        Mywebview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
             }
         });
-        mywebview.setVerticalScrollBarEnabled(false);
-        mywebview.setHorizontalScrollBarEnabled(false);
+        Mywebview.setVerticalScrollBarEnabled(false);
+        Mywebview.setHorizontalScrollBarEnabled(false);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
     void HideNav(){
@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
                                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 );
-        if(Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+        if( Build.VERSION.SDK_INT < 19) { // lower api
             View v = this.getWindow().getDecorView();
             v.setSystemUiVisibility(View.GONE);
-        } else if(Build.VERSION.SDK_INT >= 19) {
+        } else {
             //for new api versions.
             View decorView = getWindow().getDecorView();
             int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;

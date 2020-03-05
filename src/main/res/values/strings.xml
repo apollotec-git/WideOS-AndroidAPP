@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Widoes Kiosk</string>
     <string name="HintEmail">Email</string>
+    <string name="ImageViewDesc">Logotipo da apollotec</string>
+    <string name="EditTextPinHint">Codigo</string>
+    <string name="loadbuttonText">Login</string>
 </resources>
